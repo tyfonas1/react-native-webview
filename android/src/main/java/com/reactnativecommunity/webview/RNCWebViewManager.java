@@ -100,6 +100,7 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * Manages instances of {@link WebView}
  * <p>
+ * avraam
  * Can accept following commands:
  * - GO_BACK
  * - GO_FORWARD
@@ -1155,6 +1156,7 @@ public class RNCWebViewManager extends SimpleViewManager<WebView> {
       String[] requestedResources = request.getResources();
       ArrayList<String> permissions = new ArrayList<>();
       ArrayList<String> grantedPermissions = new ArrayList<String>();
+
       for (int i = 0; i < requestedResources.length; i++) {
         if (requestedResources[i].equals(PermissionRequest.RESOURCE_AUDIO_CAPTURE)) {
           permissions.add(Manifest.permission.RECORD_AUDIO);
@@ -1211,46 +1213,46 @@ public class RNCWebViewManager extends SimpleViewManager<WebView> {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
-    public void onPermissionRequest(final PermissionRequest request) {
+    // public void onPermissionRequest(final PermissionRequest request) {
 
-      grantedPermissions = new ArrayList<>();
+    //   grantedPermissions = new ArrayList<>();
 
-      ArrayList<String> requestedAndroidPermissions = new ArrayList<>();
-      for (String requestedResource : request.getResources()) {
-        String androidPermission = null;
+    //   ArrayList<String> requestedAndroidPermissions = new ArrayList<>();
+    //   for (String requestedResource : request.getResources()) {
+    //     String androidPermission = null;
 
-        if (requestedResource.equals(PermissionRequest.RESOURCE_AUDIO_CAPTURE)) {
-          androidPermission = Manifest.permission.RECORD_AUDIO;
-        } else if (requestedResource.equals(PermissionRequest.RESOURCE_VIDEO_CAPTURE)) {
-          androidPermission = Manifest.permission.CAMERA;
-        }
-        // TODO: RESOURCE_MIDI_SYSEX, RESOURCE_PROTECTED_MEDIA_ID.
+    //     if (requestedResource.equals(PermissionRequest.RESOURCE_AUDIO_CAPTURE)) {
+    //       androidPermission = Manifest.permission.RECORD_AUDIO;
+    //     } else if (requestedResource.equals(PermissionRequest.RESOURCE_VIDEO_CAPTURE)) {
+    //       androidPermission = Manifest.permission.CAMERA;
+    //     }
+    //     // TODO: RESOURCE_MIDI_SYSEX, RESOURCE_PROTECTED_MEDIA_ID.
 
-        if (androidPermission != null) {
-          if (ContextCompat.checkSelfPermission(mReactContext, androidPermission) == PackageManager.PERMISSION_GRANTED) {
-            grantedPermissions.add(requestedResource);
-          } else {
-            requestedAndroidPermissions.add(androidPermission);
-          }
-        }
-      }
+    //     if (androidPermission != null) {
+    //       if (ContextCompat.checkSelfPermission(mReactContext, androidPermission) == PackageManager.PERMISSION_GRANTED) {
+    //         grantedPermissions.add(requestedResource);
+    //       } else {
+    //         requestedAndroidPermissions.add(androidPermission);
+    //       }
+    //     }
+    //   }
 
-      // If all the permissions are already granted, send the response to the WebView synchronously
-      if (requestedAndroidPermissions.isEmpty()) {
-        request.grant(grantedPermissions.toArray(new String[0]));
-        grantedPermissions = null;
-        return;
-      }
+    //   // If all the permissions are already granted, send the response to the WebView synchronously
+    //   if (requestedAndroidPermissions.isEmpty()) {
+    //     request.grant(grantedPermissions.toArray(new String[0]));
+    //     grantedPermissions = null;
+    //     return;
+    //   }
 
-      // Otherwise, ask to Android System for native permissions asynchronously
+    //   // Otherwise, ask to Android System for native permissions asynchronously
 
-      this.permissionRequest = request;
+    //   this.permissionRequest = request;
 
-      requestPermissions(requestedAndroidPermissions);
-    }
+    //   requestPermissions(requestedAndroidPermissions);
+    // }
 
 
-    @Override
+    // @Override
     public void onGeolocationPermissionsShowPrompt(String origin, GeolocationPermissions.Callback callback) {
 
       if (ContextCompat.checkSelfPermission(mReactContext, Manifest.permission.ACCESS_FINE_LOCATION)
